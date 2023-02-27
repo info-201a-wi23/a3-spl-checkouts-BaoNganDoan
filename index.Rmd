@@ -2,85 +2,96 @@
 title: "A3: SPL Library Checkouts"
 output: html_document
 ---
+```{r setup, include=FALSE}
+library(knitr)
+
+# source all R files
+source('summary.r')
+
+```
 
 ### Introduction
 
-An introduction of the data and a description of the trends/books/items you are choosing to analyze (and why!)
+Data for my analysis was obtained from the Seattle Public Library, which has checkout records dating back to 2005. Specifically, I filtered the dataset to include only works by Stephen King in order to conduct an analysis of summary statistics and charts. In addition to examining checkout numbers over various time measurements for Stephen King's works, I also utilized the original dataset to gain insights into its classifications.
 
 ### Summary Information
 
-Write a summary paragraph of findings that includes the 5 values calculated from your summary information R script
-
-These will likely be calculated using your DPLYR skills, answering questions such as:
-
-- What is the average number of checkouts for each item?
-- What is the month or year with the most/least checkouts for a book that you're interested in?
-- What is the month or year with the most/least checkouts for ebooks?
-- How has the number of print book checkouts changed over time?
-
-Feel free to calculate and report values that you find relevant.
+While the full data set had `r num_types` different material types, my data frame of Stephen King’s works only has two: Audiobooks and E-Books. Of the `r num_works` total works, `r audiobooks` were audiobooks with the remaining `r ebooks` ebooks. My analysis found the average checkout across all of his works and dates to be `r avg_checkout`, with a minimum of `r min_checkout` and a maximum of `r max_checkout`. That book with the most checkouts was `r book_most_checkouts`, published in `r pub_yr_mc`.
 
 ### The Dataset
 
 - Who collected/published the data?  
-- What are the parameters of the data (dates, number of checkouts, kinds of books, etc.)?
-- How was the data collected or generated?  
-- Why was the data collected?  
-- What, if any, ethical questions do you need to consider when working with this data?  
-- What are possible limitations or problems with this data?   (at least 200 words)
 
+The data was collected and published by the Seattle Public Library.
+
+- What are the parameters of the data (dates, number of checkouts, kinds of books, etc.)?
+
+UsageClass: Denotes if item is “physical” or “digital”
+
+CheckoutType: Denotes the vendor tool used to check out the item.
+
+MaterialType: Describes the type of item checked out (examples: book, song movie, music, magazine)
+
+CheckoutYear: The 4-digit year of checkout for this record.
+
+CheckoutMonth: The month of checkout for this record.
+
+Checkouts: A count of the number of times the title was checked out within the “Checkout Month”.
+
+Title: The full title and subtitle of an individual item
+
+ISBN: A comma separated list of ISBNs associated with the item record for the checkout.
+
+Creator: The author or entity responsible for authoring the item.
+
+Subjects: The subject of the item as it appears in the catalog
+
+Publisher: The publisher of the title
+
+PublicationYear: The year from the catalog record in which the item was published, printed, or copyrighted.
+
+- How was the data collected or generated?  
+
+Checkout data comes from multiple current and historical sources. For digital items, the media vendors: Overdrive, hoopla, Freegal, and RBDigital provide usage data.
+
+For historical physical item checkouts from April 2005 to September 30, 2016, the source of this data is the Legrady artwork data archives. For October 1 2016 to the present, the source is the Horizon ILS.
+
+This dataset only counts the initial checkout of items; renewals of physical items are not counted.
+
+- Why was the data collected?  
+
+This extensive dataset was created, in part, as a response to the City of Seattle's Open Data Initiative, which prioritizes making data open to promote transparency, public-private collaboration, and civic problem-solving. The "Making the Invisible Visible" installation by George Legrady, which has been collecting historic checkout data scrubbed of patron information since 2005, made it possible to gather and publish past checkout data.
+
+- What, if any, ethical questions do you need to consider when working with this data?  
+
+The first ethical question relates to the protection of patrons' privacy and the need for their explicit consent to use their data for research purposes, even if the dataset has been scrubbed of patron information. There is still a risk of re-identification, especially when combined with other datasets or advanced data analytics techniques. 
+
+Another ethical consideration is the potential for bias in the data or its analysis, which could result in unfair treatment or discrimination against certain groups. Therefore, it is essential to examine and mitigate any potential biases and to ensure that the data is used fairly and ethically.
+
+- What are possible limitations or problems with this data?
+
+A potential limitation of the Seattle Public Library checkout data is the absence of subject headings for some items. This is because the historic physical checkouts were combined with current Horizon bibliographic record details in December 2016. If a Horizon bibliographic record for a title did not exist as of December 2016, then no subject heading was recorded. Additionally, some digital items, such as music from Freegal, are not cataloged within Horizon, resulting in the absence of subject headings for those checkouts. As a result, the absence of subject headings may limit the ability to perform detailed analysis or grouping of items based on subject matter.
+
+Another potential problem with the checkout data is the formatting of certain fields, such as the PublicationYear. This field includes the year from the catalog record in which the item was published, printed, or copyrighted, as recorded in the Horizon bibliographic record. However, there are several formatting varieties to be aware of, which could potentially impact the accuracy and reliability of the analysis.
+
+Furthermore, the data collection process involves consolidating information from a variety of sources and platforms, which introduces the potential for inconsistencies and inaccuracies in the data. This could be due to differences in data formatting, as before mentioned, incomplete or missing data in some records, or errors in data entry or transfers between systems.
 
 ### First Trends Over Time Chart
 
-Include a chart. Make sure to describe why you included the chart, and what patterns emerged
-
-The first chart that you will create and include will show the trend over time of your variable/topic/interest. Think carefully about what you want to communicate to your user (you may have to find relevant trends in the dataset first!). Here are some requirements to help guide your design:
-
-- Show more than one, but fewer than ~10 trends
-  - For example, two books, or 5 different mediums
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear - legend title
-In your .Rmd file, make sure to describe why you included the chart, and what patterns emerged
-
-When we say "clear" or "human readable" titles and labels, that means that you should not just display the variable name.
-
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, warning = FALSE, code = readLines("chart1_example.R")}
+``````{r, echo = FALSE, warning = FALSE, code = readLines("Chart1.R")}
 ```
+
+This line chart illustrates the monthly checkout trends for Stephen King's works from January 2022 to January 2023. In April 2022, the number of checkouts for King's works was the lowest, while in October 2022, the maximum number of checkouts was recorded. The line chart also highlights the overall rising trend of checkout numbers from January to October, followed by a gradual decline in November and December.
 
 ### Second Trends Over Time Chart
 
-Include a chart. Make sure to describe why you included the chart, and what patterns emerged
-
-The second chart that you will create and include will show another trend over time of your variable/topic/interest. Think carefully about what you want to communicate to your user (you may have to find relevant trends in the dataset first!). Here are some requirements to help guide your design:
-
-- Show more than one, but fewer than ~10 trends
-  - For example, two books, or 5 different mediums
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear - legend title
-In your .Rmd file, make sure to describe why you included the chart, and what patterns emerged
-
-When we say "clear" or "human readable" titles and labels, that means that you should not just display the variable name.
-
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, code = readLines("chart2_example.R")}
+``````{r, echo = FALSE, warning = FALSE, code = readLines("Chart2.R")}
 ```
 
-### Your Choice
+This point chart provides a visualization of the most checked-out Stephen King book published between 2008 and 2022. While the chart depicts a fluctuation in checkout numbers over the years, a clear spike in numbers can be observed for books published in 2021, ultimately leading to the highest checkout numbers in 2022.
 
-The last chart is up to you. It could be a line plot, scatter plot, histogram, bar plot, stacked bar plot, and more. Here are some requirements to help guide your design:
-
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear legend title
-
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, code = readLines("chart2_example.R")}
+### Classification of Material Types
+``````{r, echo = FALSE,warning = FALSE, code = readLines("Chart3.R")}
 ```
 
-
+This bar plot takes data from the original dataset containing 52 unique material types, with varying numbers of items in each category ranging from just a few to over a million. To make the analysis more manageable and focus on the most significant material types, I filtered the data to include only those types with a count of 1000 or more items. This allowed for a clearer visualization of the data and the identification of the most frequently checked out material types.
